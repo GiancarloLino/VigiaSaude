@@ -1,0 +1,84 @@
+-- Arquivo seed.sql: Dados de teste para o sistema Vigia Saúde
+
+-- Inserção de Unidades (Farmácia Central, UBS Primavera, UBS Centro)
+INSERT INTO unidades (id, nome, tipo, endereco, municipio) VALUES
+('11111111-1111-1111-1111-111111111111', 'Farmácia Central', 'Farmácia', 'Rua Central, 100', 'Município Teste - MS'),
+('11111111-1111-1111-1111-111111111112', 'UBS Primavera', 'UBS', 'Av. das Flores, 200', 'Município Teste - MS'),
+('11111111-1111-1111-1111-111111111113', 'UBS Centro', 'UBS', 'Praça da Matriz, S/N', 'Município Teste - MS');
+
+-- Inserção de Usuários de cada perfil (senha_hash fictício para testes)
+INSERT INTO usuarios (id, nome, email, senha_hash, role, unidade_id) VALUES
+('44444444-4444-4444-4444-444444444441', 'Secretário Teste', 'secretario@teste.com', 'hash_123', 'secretario', '11111111-1111-1111-1111-111111111111'),
+('44444444-4444-4444-4444-444444444442', 'Gestor Teste', 'gestor@teste.com', 'hash_123', 'gestor', '11111111-1111-1111-1111-111111111111'),
+('44444444-4444-4444-4444-444444444443', 'Entregador Teste', 'entregador@teste.com', 'hash_123', 'entregador', NULL),
+('44444444-4444-4444-4444-444444444444', 'Dr. Médico Teste', 'medico@teste.com', 'hash_123', 'medico', '11111111-1111-1111-1111-111111111112');
+
+-- Inserção de Fornecedores
+INSERT INTO fornecedores (id, razao_social, cnpj, contato) VALUES
+('22222222-2222-2222-2222-222222222221', 'DistMed S.A.', '00.111.222/0001-33', 'contato@distmed.com'),
+('22222222-2222-2222-2222-222222222222', 'PharmaLog', '00.222.333/0001-44', 'contato@pharmalog.com'),
+('22222222-2222-2222-2222-222222222223', 'MedFarma Ltda', '00.333.444/0001-55', 'contato@medfarma.com'),
+('22222222-2222-2222-2222-222222222224', 'FarmaBrasil', '00.444.555/0001-66', 'contato@farmabrasil.com');
+
+-- Inserção de Medicamentos
+INSERT INTO medicamentos (id, nome, principio_ativo, apresentacao, codigo_ggrem, preco_cmed) VALUES
+('33333333-3333-3333-3333-333333333331', 'Insulina NPH', 'Insulina Humana', '100UI/ml', 'GGR-1001', 25.00),
+('33333333-3333-3333-3333-333333333332', 'Losartana', 'Losartana Potássica', '50mg', 'GGR-1002', 0.90),
+('33333333-3333-3333-3333-333333333333', 'Metformina', 'Cloridrato de Metformina', '850mg', 'GGR-1003', 1.10),
+('33333333-3333-3333-3333-333333333334', 'Omeprazol', 'Omeprazol', '20mg', 'GGR-1004', 0.70),
+('33333333-3333-3333-3333-333333333335', 'Enalapril', 'Maleato de Enalapril', '10mg', 'GGR-1005', 0.50),
+('33333333-3333-3333-3333-333333333336', 'Sinvastatina', 'Sinvastatina', '20mg', 'GGR-1006', 1.50);
+
+-- Inserção de Pacientes
+INSERT INTO pacientes (id, nome, cpf, endereco, telefone, medico_id, unidade_id) VALUES
+('55555555-5555-5555-5555-555555555551', 'Maria Silva', '111.111.111-11', 'Rua A, 10', '99999-1111', '44444444-4444-4444-4444-444444444444', '11111111-1111-1111-1111-111111111112'),
+('55555555-5555-5555-5555-555555555552', 'João Souza', '222.222.222-22', 'Rua B, 20', '99999-2222', '44444444-4444-4444-4444-444444444444', '11111111-1111-1111-1111-111111111112'),
+('55555555-5555-5555-5555-555555555553', 'Ana Costa', '333.333.333-33', 'Rua C, 30', '99999-3333', '44444444-4444-4444-4444-444444444444', '11111111-1111-1111-1111-111111111113'),
+('55555555-5555-5555-5555-555555555554', 'Pedro Santos', '444.444.444-44', 'Rua D, 40', '99999-4444', '44444444-4444-4444-4444-444444444444', '11111111-1111-1111-1111-111111111113'),
+('55555555-5555-5555-5555-555555555555', 'Lúcia Pereira', '555.555.555-55', 'Rua E, 50', '99999-5555', '44444444-4444-4444-4444-444444444444', '11111111-1111-1111-1111-111111111112');
+
+-- Inserção de Receitas (5 pacientes com receitas ativas)
+INSERT INTO receitas (paciente_id, medico_id, medicamento_id, frequencia, validade, status) VALUES
+('55555555-5555-5555-5555-555555555551', '44444444-4444-4444-4444-444444444444', '33333333-3333-3333-3333-333333333331', 'mensal', '2026-12-31', 'ativa'),
+('55555555-5555-5555-5555-555555555552', '44444444-4444-4444-4444-444444444444', '33333333-3333-3333-3333-333333333332', 'diaria', '2026-10-30', 'ativa'),
+('55555555-5555-5555-5555-555555555553', '44444444-4444-4444-4444-444444444444', '33333333-3333-3333-3333-333333333333', 'diaria', '2026-11-15', 'ativa'),
+('55555555-5555-5555-5555-555555555554', '44444444-4444-4444-4444-444444444444', '33333333-3333-3333-3333-333333333334', 'semanal', '2026-08-20', 'ativa'),
+('55555555-5555-5555-5555-555555555555', '44444444-4444-4444-4444-444444444444', '33333333-3333-3333-3333-333333333336', 'diaria', '2026-09-10', 'ativa');
+
+-- Inserção de Lotes (3 para cada medicamento, validades divergentes para testes FEFO: 2025, 2026, 2027)
+-- Os lotes estão atrelados à Farmácia Central
+-- Medicamento 1 (Insulina)
+INSERT INTO lotes (medicamento_id, fornecedor_id, unidade_id, numero_lote, data_validade, quantidade_inicial, quantidade_atual, status) VALUES
+('33333333-3333-3333-3333-333333333331', '22222222-2222-2222-2222-222222222221', '11111111-1111-1111-1111-111111111111', 'LOTE-1-2025', '2025-06-30', 100, 100, 'disponivel'),
+('33333333-3333-3333-3333-333333333331', '22222222-2222-2222-2222-222222222221', '11111111-1111-1111-1111-111111111111', 'LOTE-1-2026', '2026-10-15', 150, 150, 'disponivel'),
+('33333333-3333-3333-3333-333333333331', '22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', 'LOTE-1-2027', '2027-01-20', 200, 200, 'disponivel');
+
+-- Medicamento 2 (Losartana)
+INSERT INTO lotes (medicamento_id, fornecedor_id, unidade_id, numero_lote, data_validade, quantidade_inicial, quantidade_atual, status) VALUES
+('33333333-3333-3333-3333-333333333332', '22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', 'LOTE-2-2025', '2025-08-10', 300, 300, 'disponivel'),
+('33333333-3333-3333-3333-333333333332', '22222222-2222-2222-2222-222222222223', '11111111-1111-1111-1111-111111111111', 'LOTE-2-2026', '2026-05-12', 300, 300, 'disponivel'),
+('33333333-3333-3333-3333-333333333332', '22222222-2222-2222-2222-222222222223', '11111111-1111-1111-1111-111111111111', 'LOTE-2-2027', '2027-11-05', 400, 400, 'disponivel');
+
+-- Medicamento 3 (Metformina)
+INSERT INTO lotes (medicamento_id, fornecedor_id, unidade_id, numero_lote, data_validade, quantidade_inicial, quantidade_atual, status) VALUES
+('33333333-3333-3333-3333-333333333333', '22222222-2222-2222-2222-222222222223', '11111111-1111-1111-1111-111111111111', 'LOTE-3-2025', '2025-04-20', 200, 200, 'disponivel'),
+('33333333-3333-3333-3333-333333333333', '22222222-2222-2222-2222-222222222224', '11111111-1111-1111-1111-111111111111', 'LOTE-3-2026', '2026-11-25', 250, 250, 'disponivel'),
+('33333333-3333-3333-3333-333333333333', '22222222-2222-2222-2222-222222222224', '11111111-1111-1111-1111-111111111111', 'LOTE-3-2027', '2027-02-14', 500, 500, 'disponivel');
+
+-- Medicamento 4 (Omeprazol)
+INSERT INTO lotes (medicamento_id, fornecedor_id, unidade_id, numero_lote, data_validade, quantidade_inicial, quantidade_atual, status) VALUES
+('33333333-3333-3333-3333-333333333334', '22222222-2222-2222-2222-222222222221', '11111111-1111-1111-1111-111111111111', 'LOTE-4-2025', '2025-09-05', 400, 400, 'disponivel'),
+('33333333-3333-3333-3333-333333333334', '22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', 'LOTE-4-2026', '2026-06-18', 400, 400, 'disponivel'),
+('33333333-3333-3333-3333-333333333334', '22222222-2222-2222-2222-222222222223', '11111111-1111-1111-1111-111111111111', 'LOTE-4-2027', '2027-10-30', 600, 600, 'disponivel');
+
+-- Medicamento 5 (Enalapril)
+INSERT INTO lotes (medicamento_id, fornecedor_id, unidade_id, numero_lote, data_validade, quantidade_inicial, quantidade_atual, status) VALUES
+('33333333-3333-3333-3333-333333333335', '22222222-2222-2222-2222-222222222224', '11111111-1111-1111-1111-111111111111', 'LOTE-5-2025', '2025-11-15', 500, 500, 'disponivel'),
+('33333333-3333-3333-3333-333333333335', '22222222-2222-2222-2222-222222222221', '11111111-1111-1111-1111-111111111111', 'LOTE-5-2026', '2026-03-22', 500, 500, 'disponivel'),
+('33333333-3333-3333-3333-333333333335', '22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', 'LOTE-5-2027', '2027-08-01', 500, 500, 'disponivel');
+
+-- Medicamento 6 (Sinvastatina)
+INSERT INTO lotes (medicamento_id, fornecedor_id, unidade_id, numero_lote, data_validade, quantidade_inicial, quantidade_atual, status) VALUES
+('33333333-3333-3333-3333-333333333336', '22222222-2222-2222-2222-222222222223', '11111111-1111-1111-1111-111111111111', 'LOTE-6-2025', '2025-12-10', 100, 100, 'disponivel'),
+('33333333-3333-3333-3333-333333333336', '22222222-2222-2222-2222-222222222224', '11111111-1111-1111-1111-111111111111', 'LOTE-6-2026', '2026-09-09', 200, 200, 'disponivel'),
+('33333333-3333-3333-3333-333333333336', '22222222-2222-2222-2222-222222222221', '11111111-1111-1111-1111-111111111111', 'LOTE-6-2027', '2027-12-25', 300, 300, 'disponivel');
