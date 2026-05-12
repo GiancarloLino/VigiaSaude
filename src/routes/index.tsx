@@ -28,6 +28,20 @@ export const router = createBrowserRouter([
         path: 'fornecedor',
         element: <Fornecedor />,
       },
+      {
+        path: 'atas',
+        lazy: async () => {
+          const { AtasLista } = await import('../pages/Atas');
+          return { Component: AtasLista };
+        },
+      },
+      {
+        path: 'atas/:id',
+        lazy: async () => {
+          const { AtasDetalhes } = await import('../pages/Atas/Detalhes');
+          return { Component: AtasDetalhes };
+        },
+      },
     ],
   },
   {
