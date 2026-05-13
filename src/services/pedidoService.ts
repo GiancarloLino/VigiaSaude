@@ -1,4 +1,4 @@
-import { mockPedidosCompra, mockAtas } from '../lib/mockData';
+import apiClient from './apiClient';
 import type { PedidoCompra } from '../types';
 
 export interface PedidoWithAta extends PedidoCompra {
@@ -6,33 +6,16 @@ export interface PedidoWithAta extends PedidoCompra {
 }
 
 export const getPedidos = async (): Promise<PedidoWithAta[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const data = mockPedidosCompra.map(pedido => {
-        const ata = mockAtas.find(a => a.id === pedido.ataId);
-        return {
-          ...pedido,
-          ataNumero: ata?.numero || 'Desconhecida'
-        };
-      });
-      resolve(data);
-    }, 800);
-  });
+  const response = await apiClient.get<PedidoWithAta[]>('/api/pedidos');
+  return response.data;
 };
 
 export const getPedidoById = async (id: string): Promise<PedidoWithAta | null> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const pedido = mockPedidosCompra.find(p => p.id === id);
-      if (!pedido) {
-        resolve(null);
-        return;
-      }
-      const ata = mockAtas.find(a => a.id === pedido.ataId);
-      resolve({
-        ...pedido,
-        ataNumero: ata?.numero || 'Desconhecida'
-      });
-    }, 800);
-  });
+  const response = await apiClient.get<PedidoWithAta>(`/api/pedidos/${id}`);
+  return response.data;
+};
+
+export const confirmarEntrega = async (id: string): Promise<PedidoCompra> => {
+  const response = await apiClient.patch<PedidoCompra>(`/api/pedidos/${id}/entrega`);
+  return response.data;
 };

@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import type { User } from '../types';
+import apiClient from '../services/apiClient';
 
 interface AuthContextType {
   user: User | null;
-  login: (user: User) => Promise<void>;
+  login: (credentials: { email: string; password?: string }) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -17,18 +18,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const login = async (userData: User) => {
+  const login = async (credentials: { email: string; password?: string }) => {
     setIsLoading(true);
-    // Simular delay de rede
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setUser(userData);
-    localStorage.setItem('vigiasaude_user', JSON.stringify(userData));
-    setIsLoading(false);
+    try {
+      const response = await apiClient.post<{ user: User; token: string }>('/auth/login', credentials);
+      
+      const { user: userData, token } = response.data;
+      
+      setUser(userData);
+      localStorage.setItem('vigiasaude_user', JSON.stringify(userData));
+      localStorage.setItem('vigiasaude_token', token);
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem('vigiasaude_user');
+    localStorage.removeItem('vigiasaude_token');
   };
 
   return (

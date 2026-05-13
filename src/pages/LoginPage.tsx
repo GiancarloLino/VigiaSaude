@@ -20,14 +20,13 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    await login({
-      id: Math.random().toString(36).substr(2, 9),
-      nome: role === 'COMPRADOR' ? 'João Comprador' : 'Maria Fornecedora',
-      email: email || 'usuario@vigiasaude.com.br',
-      role: role,
-    });
-
-    navigate(role === 'COMPRADOR' ? '/comprador' : '/fornecedor');
+    try {
+      await login({ email, password });
+      // O redirecionamento agora é feito via role retornada do servidor
+      // mas mantemos a lógica de navegação baseada no estado do usuário
+    } catch (err) {
+      alert('Falha na autenticação. Verifique suas credenciais.');
+    }
   };
 
   return (
