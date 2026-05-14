@@ -62,4 +62,17 @@ export interface Auditoria {
   acao: AuditoriaAcao;
   entidadeId: string;
   detalhes: string;
+  estadoAnterior?: any;
+  estadoNovo?: any;
+  ip?: string;
+  justificativa?: string;
 }
+
+export type UserRole = 'COMPRADOR' | 'FORNECEDOR';
+
+export type User = {
+  id: string;
+  nome: string;
+  role: UserRole;
+  email: string;
+};
