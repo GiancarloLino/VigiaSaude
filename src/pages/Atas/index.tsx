@@ -1,9 +1,9 @@
 import { Link } from 'react-router';
 import { mockAtas, mockFornecedores } from '../../lib/mockData';
-import { DataTable, ColumnDef } from '../../components/ui/DataTable';
+import { DataTable, type ColumnDef } from '../../components/ui/DataTable';
 import { StatusBadge } from '../../components/ui/StatusBadge';
 import { Eye, Clock } from 'lucide-react';
-import { Ata } from '../../types';
+import type { Ata } from '../../types';
 
 export function AtasLista() {
   // Enrichment of Ata with Fornecedor Nome
